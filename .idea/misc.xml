@@ -6,8 +6,19 @@
       <list>
         <option value="$PROJECT_DIR$/services/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/services/discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/services/config-server/customer/pom.xml" />
+        <option value="$PROJECT_DIR$/services/customer/pom.xml" />
+        <option value="$PROJECT_DIR$/product/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.txt" />
+        <option value="$PROJECT_DIR$/services/product/pom.xml" />
+        <option value="$PROJECT_DIR$/services/order/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/services/config-server/customer/pom.xml" />
+      </set>
+    </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK" />
 </project>
