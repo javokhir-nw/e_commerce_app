@@ -6,6 +6,8 @@ import dev.javokhir.ecommerce.kafka.OrderConfirmation;
 import dev.javokhir.ecommerce.kafka.OrderProducer;
 import dev.javokhir.ecommerce.orderline.OrderLineRequest;
 import dev.javokhir.ecommerce.orderline.OrderLineService;
+import dev.javokhir.ecommerce.payment.PaymentClient;
+import dev.javokhir.ecommerce.payment.PaymentRequest;
 import dev.javokhir.ecommerce.product.ProductClient;
 import dev.javokhir.ecommerce.product.PurchaseRequest;
 import dev.javokhir.ecommerce.product.PurchaseResponse;
@@ -26,6 +28,7 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderMapper mapper;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createOrder(@Valid OrderRequest request) {
         var customer = customerClient.findCustomerById(request.customerId())
@@ -46,7 +49,6 @@ public class OrderService {
             );
         }
 
-
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
                         request.reference(),
@@ -57,7 +59,14 @@ public class OrderService {
                 )
         );
 
-        // todo start payment process
+        var paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
 
 
         return order.getId();
@@ -71,6 +80,6 @@ public class OrderService {
         return orderRepository
                 .findById(orderId)
                 .map(mapper::fromOrder)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("No order found with the provided ID:: %s",orderId)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("No order found with the provided ID:: %s", orderId)));
     }
 }

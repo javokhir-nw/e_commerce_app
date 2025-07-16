@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5435/order
+    url: jdbc:postgresql://localhost:5435/payment
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
@@ -9,20 +9,12 @@ spring:
       ddl-auto: validate
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-  application:
-    name: order
   kafka:
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: orderConfirmation:dev.javokhir.ecommerce.kafka.OrderConfirmation
+        spring.json.type.mapping: paymentConfirmation:dev.javokhir.ecommerce.notification.PaymentNotificationRequest
 server:
-  port: 8070
-
-application:
-  config:
-    customer-url: http://localhost:8222/api/v1/customers
-    product-url: http://localhost:8222/api/v1/products
-    payment-url: http://localhost:8222/api/v1/payments
+  port: 8060
